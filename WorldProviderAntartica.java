@@ -65,7 +65,7 @@ public String getRespawnMessage()
 
 public void registerWorldChunkManager()
 {
-	worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.Antartica, 1.0F, 0.0F);
+	worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.Antartic, 1.0F, 0.0F);
 }
 
 public IChunkProvider getChunkProvider()

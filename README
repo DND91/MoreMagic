@@ -25,11 +25,13 @@ spelaren ett eget äventyr i varje.
 Moddet kommer börja i SP för att sendan gå över till MP.
 
 	A - Grunderna
-- 5 artefakter som lär dig varsitt område. Så kallade Beta scrolls.
+- 5 artefakter som lär dig varsitt område. Så kallade Beta scrolls. CHEACK
 - 5 artefakter som teleporterar dig till varje dimenstion och tillbaks.
 - få dem att spawna i världen.
 - en magi för varje område.
 - Magi GUI. Vi använder Jonathans gamla GUI. Fast lägger ditt shift + num för byte och shift för att se vilka magier man har.
+- Spara magi stats hos spelaren
+- Spara vilka magier en spelare kan.
 - En magisk ande
 
 	B - vattendimenstionen plus vattenspells

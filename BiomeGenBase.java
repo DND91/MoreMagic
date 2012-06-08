@@ -44,6 +44,9 @@ public abstract class BiomeGenBase
     /** Jungle biome identifier */
     public static final BiomeGenBase jungle = (new BiomeGenJungle(21)).setColor(0x537b09).setBiomeName("Jungle").func_4124_a(0x537b09).setTemperatureRainfall(1.2F, 0.9F).setMinMaxHeight(0.2F, 0.4F);
     public static final BiomeGenBase jungleHills = (new BiomeGenJungle(22)).setColor(0x2c4205).setBiomeName("JungleHills").func_4124_a(0x537b09).setTemperatureRainfall(1.2F, 0.9F).setMinMaxHeight(1.8F, 0.2F);
+    
+    public static final BiomeGenBase Antartic = (new BiomeGenAntartica(23));
+    
     public String biomeName;
     public int color;
 

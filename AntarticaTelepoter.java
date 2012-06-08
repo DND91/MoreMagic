@@ -2,14 +2,14 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-public class AntarticaTeleporter extends Teleporter
+public class AntarticaTelepoter extends Teleporter
 {
 //The Teleporter class handles finding existing portals and generating new ones. It pinpoints
 //the location to which the player should be teleported when traveling across dimensions.
 
 private Random random;
 
-public AntarticaTeleporter()
+public AntarticaTelepoter()
 {
 random = new Random();
 }

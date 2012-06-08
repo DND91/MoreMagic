@@ -363,6 +363,11 @@ public class BlockFire extends Block
         {
             return;
         }
+        
+        if (par1World.getBlockId(par2, par3 - 1, par4) == mod_Antartica.MysticalStone.blockID && mod_Antartica.ForbiddenPortal.tryToCreatePortal(par1World, par2, par3, par4))
+        {
+            return;
+        }
 
         if (!par1World.isBlockNormalCube(par2, par3 - 1, par4) && !canNeighborBurn(par1World, par2, par3, par4))
         {

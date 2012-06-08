@@ -21,7 +21,7 @@ return new WorldProviderAntartica();
 
 public Teleporter getTeleporter()
 {
-return new AntarticaTeleporter();
+return new AntarticaTelepoter();
 }
 
 //You can get to this dimension from the overworld (0) and Nether (-1).

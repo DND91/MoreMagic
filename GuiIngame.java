@@ -36,9 +36,11 @@ public class GuiIngame extends Gui
     /** Previous frame vignette brightness (slowly changes by 1% each frame) */
     float prevVignetteBrightness;
     public static ISpecialTeleportation currentPortal;
+    public GuiQuickbar quickbar;
 
     public GuiIngame(Minecraft par1Minecraft)
     {
+    	quickbar = new GuiQuickbar(par1Minecraft);
         chatMessageList = new ArrayList();
         sentMessageList = new ArrayList();
         rand = new Random();
@@ -106,11 +108,17 @@ public class GuiIngame extends Gui
             zLevel = -90F;
             drawTexturedModalRect(i / 2 - 91, j - 22, 0, 0, 182, 22);
             drawTexturedModalRect((i / 2 - 91 - 1) + inventoryplayer.currentItem * 20, j - 22 - 1, 0, 22, 24, 22);
+            
+            if(GuiScreen.isShiftKeyDown()){
+            	this.quickbar.drawScreen(par3, par4, par1);
+            }
+            
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture("/gui/icons.png"));
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
             drawTexturedModalRect(i / 2 - 7, j / 2 - 7, 0, 0, 16, 16);
             GL11.glDisable(GL11.GL_BLEND);
+            
             boolean flag1 = (mc.thePlayer.heartsLife / 3) % 2 == 1;
 
             if (mc.thePlayer.heartsLife < 10)
