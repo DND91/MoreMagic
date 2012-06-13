@@ -6,9 +6,18 @@ public abstract class EntityPlayer extends EntityLiving
 {
     /** Inventory of the player */
     public InventoryPlayer inventory;
+    public MagicInventoryPlayer magicinventory;
+    
+    /** Magic levels and exp. */
+    public int fireLvl, fireExp;
+    public int waterLvl, waterExp;
+    public int windLvl, windExp;
+    public int earthLvl, earthExp;
+    public int essensLvl, essensExp;
 
     /** the crafting inventory in you get when opening your inventory */
     public Container inventorySlots;
+    public MagicContainer magicinventorySlots;
 
     /** the crafting inventory you are currently using */
     public Container craftingInventory;
@@ -114,6 +123,7 @@ public abstract class EntityPlayer extends EntityLiving
     {
         super(par1World);
         inventory = new InventoryPlayer(this);
+        magicinventory = new MagicInventoryPlayer(this);
         foodStats = new FoodStats();
         flyToggleTimer = 0;
         field_9371_f = 0;
@@ -128,6 +138,7 @@ public abstract class EntityPlayer extends EntityLiving
         speedInAir = 0.02F;
         fishEntity = null;
         inventorySlots = new ContainerPlayer(inventory, !par1World.isRemote);
+        magicinventorySlots = new ContainerMagicPlayer(magicinventory, !par1World.isRemote);
         craftingInventory = inventorySlots;
         yOffset = 1.62F;
         ChunkCoordinates chunkcoordinates = par1World.getSpawnPoint();
@@ -136,6 +147,8 @@ public abstract class EntityPlayer extends EntityLiving
         field_9353_B = 180F;
         fireResistance = 20;
         texture = "/mob/char.png";
+        
+        fireLvl = fireExp = waterLvl = waterExp = windLvl = windExp = earthLvl = earthExp = essensLvl = essensExp = 0;
     }
 
     public int getMaxHealth()
@@ -769,12 +782,24 @@ public abstract class EntityPlayer extends EntityLiving
         super.readEntityFromNBT(par1NBTTagCompound);
         NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Inventory");
         inventory.readFromNBT(nbttaglist);
+        nbttaglist = par1NBTTagCompound.getTagList("MagicInventory");
+        magicinventory.readFromNBT(nbttaglist);
         dimension = par1NBTTagCompound.getInteger("Dimension");
         sleeping = par1NBTTagCompound.getBoolean("Sleeping");
         sleepTimer = par1NBTTagCompound.getShort("SleepTimer");
         experience = par1NBTTagCompound.getFloat("XpP");
         experienceLevel = par1NBTTagCompound.getInteger("XpLevel");
         experienceTotal = par1NBTTagCompound.getInteger("XpTotal");
+        fireLvl = par1NBTTagCompound.getInteger("FireLvl");
+        fireExp = par1NBTTagCompound.getInteger("FireExp");
+        waterLvl = par1NBTTagCompound.getInteger("WaterLvl");
+        waterExp = par1NBTTagCompound.getInteger("WaterExp");
+        windLvl = par1NBTTagCompound.getInteger("WindLvl");
+        windExp = par1NBTTagCompound.getInteger("WindExp");
+        earthLvl = par1NBTTagCompound.getInteger("EarthLvl");
+        earthExp = par1NBTTagCompound.getInteger("EarthExp");
+        essensLvl = par1NBTTagCompound.getInteger("EssensLvl");
+        essensExp = par1NBTTagCompound.getInteger("EssensExp");
 
         if (sleeping)
         {
@@ -798,12 +823,24 @@ public abstract class EntityPlayer extends EntityLiving
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setTag("Inventory", inventory.writeToNBT(new NBTTagList()));
+        par1NBTTagCompound.setTag("MagicInventory", magicinventory.writeToNBT(new NBTTagList()));
         par1NBTTagCompound.setInteger("Dimension", dimension);
         par1NBTTagCompound.setBoolean("Sleeping", sleeping);
         par1NBTTagCompound.setShort("SleepTimer", (short)sleepTimer);
         par1NBTTagCompound.setFloat("XpP", experience);
         par1NBTTagCompound.setInteger("XpLevel", experienceLevel);
         par1NBTTagCompound.setInteger("XpTotal", experienceTotal);
+        
+        par1NBTTagCompound.setInteger("FireLvl", fireLvl);
+        par1NBTTagCompound.setInteger("FireExp", fireExp);
+        par1NBTTagCompound.setInteger("WaterLvl", waterLvl);
+        par1NBTTagCompound.setInteger("WaterExp", waterExp);
+        par1NBTTagCompound.setInteger("WindLvl", windLvl);
+        par1NBTTagCompound.setInteger("WindExp", windExp);
+        par1NBTTagCompound.setInteger("EarthLvl", earthLvl);
+        par1NBTTagCompound.setInteger("EarthExp", earthExp);
+        par1NBTTagCompound.setInteger("EssensLvl", essensLvl);
+        par1NBTTagCompound.setInteger("EssensExp", essensExp);
 
         if (spawnChunk != null)
         {
@@ -814,6 +851,81 @@ public abstract class EntityPlayer extends EntityLiving
 
         foodStats.writeNBT(par1NBTTagCompound);
         capabilities.writeCapabilitiesToNBT(par1NBTTagCompound);
+    }
+    
+    /**
+     * Add exp to a magic skill.
+     */
+    
+    static final int base_xp = 10;
+    static final int factor = 2;
+    
+    public void addExpToMagic(String type, int value){
+    	//base_xp * (level_to_get ^ factor)
+    	EntityPlayer pl = ModLoader.getMinecraftInstance().thePlayer;
+    	
+    	switch(type){
+    	case "fire":
+    		this.fireExp += value;
+    		
+    		if(this.fireExp > (base_xp * ((this.fireLvl + 1) ^ factor))){
+    			while(fireExp > (base_xp * ((fireLvl + 1) ^ factor))){
+    				fireExp -= (base_xp * ((fireLvl + 1) ^ factor));
+    				fireLvl++;
+    	    	}
+    			pl.addChatMessage("The fire with in you grows brighter...");
+    		}
+    		
+    		break;
+    	case "water":
+    		this.waterExp += value;
+    		
+    		if(this.waterExp > (base_xp * ((this.waterLvl + 1) ^ factor))){
+    			while(waterExp > (base_xp * ((waterLvl + 1) ^ factor))){
+    				waterExp -= (base_xp * ((waterLvl + 1) ^ factor));
+    				waterLvl++;
+    	    	}
+    			pl.addChatMessage("The flow of the water gets stronger...");
+    		}
+    		
+    		break;
+    	case "wind":
+    		this.windExp += value;
+    		
+    		if(this.windExp > (base_xp * ((this.windLvl + 1) ^ factor))){
+    			while(windExp > (base_xp * ((windLvl + 1) ^ factor))){
+    				windExp -= (base_xp * ((windLvl + 1) ^ factor));
+    				windLvl++;
+    	    	}
+    			pl.addChatMessage("The furry with in your heart beats...");
+    		}
+    		
+    		break;
+    	case "earth":
+    		this.earthExp += value;
+    		
+    		if(this.earthExp > (base_xp * ((this.earthLvl + 1) ^ factor))){
+    			while(earthExp > (base_xp * ((earthLvl + 1) ^ factor))){
+    				earthExp -= (base_xp * ((earthLvl + 1) ^ factor));
+    				earthLvl++;
+    	    	}
+    			pl.addChatMessage("You come close to the earth...");
+    		}
+    		
+    		break;
+    	case "essens":
+    		this.essensExp += value;
+    		
+    		if(this.essensExp > (base_xp * ((this.essensLvl + 1) ^ factor))){
+    			while(essensExp > (base_xp * ((essensLvl + 1) ^ factor))){
+    				essensExp -= (base_xp * ((essensLvl + 1) ^ factor));
+    				essensLvl++;
+    	    	}
+    			pl.addChatMessage("The Essene with in you howls...");
+    		}
+    		
+    		break;
+    	}
     }
 
     /**
@@ -838,6 +950,11 @@ public abstract class EntityPlayer extends EntityLiving
      * Called whenever an item is picked up from walking over it. Args: pickedUpEntity, stackSize
      */
     public void onItemPickup(Entity entity, int i)
+    {
+    }
+    
+    //OWER OWN
+    public void onMagicPickup(Entity entity, int i)
     {
     }
 
@@ -1249,6 +1366,11 @@ public abstract class EntityPlayer extends EntityLiving
     public abstract void func_6420_o();
 
     public void onItemStackChanged(ItemStack itemstack)
+    {
+    }
+    
+    // WE HAVE ADDED THIS!
+    public void onMagicStackChanged(MagicStack magicstack)
     {
     }
 

@@ -44,6 +44,15 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+/*
+ * THINGS TODO:
+ * GUICONTAINER = GUIMAGICCONTAINER FIXY
+ * CONTAINER = MAGICCONTAINER? DONE
+ * CONTAINERPLAYER = CONTAINERMAGICPLAYER DONE
+ * SLOT = MAGICSLOT DONE
+ * 
+ */
+
 public final class ModLoader
 {
     private static final List animList = new LinkedList();

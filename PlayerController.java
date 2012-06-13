@@ -143,6 +143,11 @@ public abstract class PlayerController
     {
         return par5EntityPlayer.craftingInventory.slotClick(par2, par3, par4, par5EntityPlayer);
     }
+    
+    public MagicStack magicWindowClick(int par1, int par2, int par3, boolean par4, EntityPlayer par5EntityPlayer)
+    {
+        return par5EntityPlayer.magicinventorySlots.magicslotClick(par2, par3, par4, par5EntityPlayer);
+    }
 
     public void func_20086_a(int par1, EntityPlayer par2EntityPlayer)
     {

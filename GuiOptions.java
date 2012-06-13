@@ -16,7 +16,6 @@ public class GuiOptions extends GuiScreen
     /** Reference to the GameSettings object. */
     private GameSettings options;
     private static EnumOptions relevantOptions[];
-
     public GuiOptions(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
     {
         screenTitle = "Options";

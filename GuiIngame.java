@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL12;
 public class GuiIngame extends Gui
 {
     private static RenderItem itemRenderer = new RenderItem();
+    private static RenderMagic magicRenderer = new RenderMagic();
 
     /** A list with all the chat messages in. */
     private java.util.List chatMessageList;
@@ -109,8 +110,8 @@ public class GuiIngame extends Gui
             drawTexturedModalRect(i / 2 - 91, j - 22, 0, 0, 182, 22);
             drawTexturedModalRect((i / 2 - 91 - 1) + inventoryplayer.currentItem * 20, j - 22 - 1, 0, 22, 24, 22);
             
-            if(GuiScreen.isShiftKeyDown()){
-            	this.quickbar.drawScreen(par3, par4, par1);
+            if(GuiScreen.isCtrlKeyDown()){ //KEYCTRL
+            	this.quickbar.drawScreen(par3, par4, par1, mc.thePlayer);
             }
             
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture("/gui/icons.png"));
@@ -319,12 +320,20 @@ public class GuiIngame extends Gui
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             RenderHelper.enableGUIStandardItemLighting();
 
-            for (int i6 = 0; i6 < 9; i6++)
+            for (int i6 = 0; i6 < 9; i6++) //RENDER INVENTORY
             {
                 int l6 = (i / 2 - 90) + i6 * 20 + 2;
                 int l7 = j - 16 - 3;
                 renderInventorySlot(i6, l6, l7, par1);
             }
+            
+            if(GuiScreen.isCtrlKeyDown()) //KEYCTRL
+            	for (int i7 = 0; i7 < 9; i7++) //RENDER MAGIC INVENTORY
+            		{
+            			int l6 = (i / 2 - 90) + i7 * 20 + 2; //X
+            			int l7 = j - 59; //Y
+            			renderMagicInventorySlot(i7, l6, l7, par1);
+            		}
 
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -771,6 +780,38 @@ public class GuiIngame extends Gui
         }
 
         itemRenderer.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, itemstack, par2, par3);
+    }
+    
+    //RENDER MAGIC ITEMS!
+    
+    private void renderMagicInventorySlot(int par1, int par2, int par3, float par4)
+    {
+        MagicStack magicstack = mc.thePlayer.magicinventory.mainInventory[par1];
+
+        if (magicstack == null)
+        {
+            return;
+        }
+
+        float f = (float)magicstack.animationsToGo - par4;
+
+        if (f > 0.0F)
+        {
+            GL11.glPushMatrix();
+            float f1 = 1.0F + f / 5F;
+            GL11.glTranslatef(par2 + 8, par3 + 12, 0.0F);
+            GL11.glScalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+            GL11.glTranslatef(-(par2 + 8), -(par3 + 12), 0.0F);
+        }
+
+        magicRenderer.renderMagicIntoGUI(mc.fontRenderer, mc.renderEngine, magicstack, par2, par3);
+
+        if (f > 0.0F)
+        {
+            GL11.glPopMatrix();
+        }
+
+        magicRenderer.renderMagicOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, magicstack, par2, par3);
     }
 
     /**
