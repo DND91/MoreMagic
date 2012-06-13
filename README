@@ -29,9 +29,9 @@ Moddet kommer börja i SP för att sendan gå över till MP.
 - 5 artefakter som teleporterar dig till varje dimenstion och tillbaks.
 - få dem att spawna i världen.
 - en magi för varje område.
-- Magi GUI. Vi använder Jonathans gamla GUI. Fast lägger ditt shift + num för byte och shift för att se vilka magier man har.
-- Spara magi stats hos spelaren
-- Spara vilka magier en spelare kan.
+- Magi GUI. Vi använder Jonathans gamla GUI. DONE!
+- Spara magi stats hos spelaren. DONE!
+- Spara vilka magier en spelare kan. DONE!
 - En magisk ande
 
 	B - vattendimenstionen plus vattenspells
